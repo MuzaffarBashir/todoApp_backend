@@ -9,7 +9,7 @@ func (apiTodo *ApiToDo) GetAllToDo(conn *sql.DB) ([]ApiToDo, error) {
 
 	var todosList []ApiToDo
 	tododb := tododb.NewTodo()
-	data, err := tododb.GetToDO(conn)
+	data, err := tododb.GetAllToDO(conn)
 	if err != nil {
 		return nil, err
 	}

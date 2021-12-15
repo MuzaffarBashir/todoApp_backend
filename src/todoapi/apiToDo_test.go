@@ -18,8 +18,8 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	return db, mock
 }
 
-// Success case of getting all todos
-func TestGetTodoSuccess(t *testing.T) {
+// unit case of getting all todos
+func TestGetAllToDo(t *testing.T) {
 
 	db, _ := NewMock()
 	todo := &ApiToDo{
