@@ -9,9 +9,9 @@ import (
 
 var apitodo *todoapi.ApiToDo
 
-func (todoserver *ToDoServer) GetTODO(response http.ResponseWriter, connection *sql.DB) http.ResponseWriter {
+func (todoserver *ToDoServer) GetAllToDo(response http.ResponseWriter, connection *sql.DB) http.ResponseWriter {
 
-	apitodo, err := apitodo.GetTodo(connection)
+	apitodo, err := apitodo.GetAllToDo(connection)
 	if err != nil {
 
 		response = getresponseSetting(response)

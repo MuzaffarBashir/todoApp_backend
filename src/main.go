@@ -11,7 +11,7 @@ var servertodo *todoserver.ToDoServer
 
 func getAllTodo(w http.ResponseWriter, r *http.Request) {
 	// calling to get list of todos
-	servertodo.GetTODO(w, Connection)
+	servertodo.GetAllToDo(w, Connection)
 }
 
 func main() {

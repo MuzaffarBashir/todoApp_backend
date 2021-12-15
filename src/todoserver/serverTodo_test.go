@@ -13,7 +13,7 @@ import (
 )
 
 // Success case of getting all todos
-func TestGetTODO(t *testing.T) {
+func TestGetAllToDo(t *testing.T) {
 
 	db, _ := NewMock()
 	todo := &todoapi.ApiToDo{

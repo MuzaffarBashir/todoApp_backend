@@ -3,7 +3,7 @@ package todoapi
 import "database/sql"
 
 type ApiService interface {
-	Gettodo(connection *sql.DB) (*ApiToDo, error)
+	GetAllToDo(connection *sql.DB) ([]ApiToDo, error)
 }
 type ApiToDo struct {
 	Description string `jason:"Description"`

@@ -6,7 +6,7 @@ import (
 )
 
 type ServerTODO interface {
-	GetTODO(response http.ResponseWriter, connection *sql.DB) http.ResponseWriter
+	GetAllToDo(response http.ResponseWriter, connection *sql.DB) http.ResponseWriter
 }
 
 type ToDoServer struct {
