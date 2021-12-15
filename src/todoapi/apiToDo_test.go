@@ -22,7 +22,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 // unit case of getting all todos
 func TestGetAllToDo(t *testing.T) {
 
-	db, _ := NewMock()
+	db := tododb.GetConnection()
 	todo := &ApiToDo{
 
 		Connection: db,
