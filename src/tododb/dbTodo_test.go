@@ -23,7 +23,7 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	return db, mock
 }
 
-func TestGetToDO_Success(t *testing.T) {
+func TestGetAllToDO(t *testing.T) {
 	db, mock := NewMock()
 	todo := &Todo{
 		Connection: db,
