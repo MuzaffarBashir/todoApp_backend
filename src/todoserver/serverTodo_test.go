@@ -45,3 +45,22 @@ func TestGetAllToDoSuccess(t *testing.T) {
 	assert.EqualValues(t, "new todo", todoslist[0].Description)
 	assert.EqualValues(t, http.StatusOK, res.StatusCode)
 }
+
+//Fail case for gettig todoslist
+func TestGetAllToDoFailure(t *testing.T) {
+
+	db, _ := NewMock()
+	tododb.GetConnection()
+	todoserver := &ToDoServer{
+		Connection: db,
+	}
+	w := httptest.NewRecorder()
+	todoserver.GetAllToDo(w, todoserver.Connection)
+	res := w.Result()
+	defer res.Body.Close()
+	data, _ := ioutil.ReadAll(res.Body)
+	var todoslist []todoapi.ApiToDo
+	_ = json.Unmarshal(data, &todoslist)
+	assert.Nil(t, todoslist)
+	assert.NotEqualValues(t, http.StatusOK, res.StatusCode)
+}
