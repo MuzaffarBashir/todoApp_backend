@@ -30,5 +30,18 @@ func TestGetAllToDo(t *testing.T) {
 	todosList, err := todo.GetAllToDo(todo.Connection)
 	assert.Nil(t, err)
 	assert.NotNil(t, todosList)
+}
+
+// Failure unit case of getting all todos using mock db connection
+func TestGetAllToDoFail(t *testing.T) {
+
+	db, _ := NewMock()
+	todo := &ApiToDo{
+
+		Connection: db,
+	}
+	todosList, err := todo.GetAllToDo(db)
+	assert.Nil(t, todosList)
+	assert.NotNil(t, err)
 
 }
