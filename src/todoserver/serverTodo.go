@@ -21,7 +21,6 @@ func (todoserver *ToDoServer) GetAllToDo(response http.ResponseWriter, connectio
 		}
 		return response
 	} else {
-
 		response = getresponseSetting(response)
 		response.WriteHeader(http.StatusOK)
 		if err := json.NewEncoder(response).Encode(apitodo); err != nil {

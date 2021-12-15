@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"testing"
+	"todoApp/tododb"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
@@ -26,7 +27,7 @@ func TestGetAllToDo(t *testing.T) {
 
 		Connection: db,
 	}
-	todosList, err := todo.GetTodo(todo.Connection)
+	todosList, err := todo.GetAllToDo(todo.Connection)
 	assert.Nil(t, err)
 	assert.NotNil(t, todosList)
 

@@ -3,6 +3,8 @@ package tododb
 import (
 	"database/sql"
 	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 const (
@@ -44,4 +46,7 @@ func GetConnection() *sql.DB {
 	}
 	return Connection
 
+}
+func SetConnection(db *sql.DB) {
+	Connection = db
 }
