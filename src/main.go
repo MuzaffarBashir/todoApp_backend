@@ -1,11 +1,17 @@
 package main
 
 import (
+	"database/sql"
 	"net/http"
+	"todoApp/todoserver"
 )
 
-func getAllTodo(w http.ResponseWriter, r *http.Request) {
+var Connection *sql.DB
+var servertodo *todoserver.ToDoServer
 
+func getAllTodo(w http.ResponseWriter, r *http.Request) {
+	// calling to get list of todos
+	servertodo.GetTODO(w, Connection)
 }
 
 func main() {
