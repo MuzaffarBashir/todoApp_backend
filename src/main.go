@@ -19,11 +19,10 @@ func getAllTodo(w http.ResponseWriter, r *http.Request) {
 	// calling to get list of todos
 	servertodo.GetAllToDo(w, Connection)
 }
-func handlerequest(w http.ResponseWriter, r *http.Request) {
+func handlerequest(response http.ResponseWriter, request *http.Request) {
 	//calling server for requestion validation to create TODO
 
-	servertodo.CreateTODO(r, w, Connection)
-	//todoserver.GetTODO(w, Connection)
+	servertodo.CreateToDo(request, response, Connection)
 }
 
 func main() {

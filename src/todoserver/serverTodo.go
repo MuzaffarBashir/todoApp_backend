@@ -9,6 +9,25 @@ import (
 
 var apitodo *todoapi.ApiToDo
 
+func (todoserver *ToDoServer) CreateToDo(request *http.Request, response http.ResponseWriter, conn *sql.DB) http.ResponseWriter {
+
+	apitodo = todoapi.NewApiService() // getting instance of api layer
+	apitodo, err := apitodo.CreateTODOApi(request, conn)
+	if err != nil {
+		response = getresponseSetting(response)
+		response.WriteHeader(http.StatusBadRequest)
+		return response
+	} else {
+		response = getresponseSetting(response)
+		response.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(response).Encode(apitodo); err != nil {
+			panic(err)
+		}
+	}
+	return response
+
+}
+
 func (todoserver *ToDoServer) GetAllToDo(response http.ResponseWriter, connection *sql.DB) http.ResponseWriter {
 
 	apitodo, err := apitodo.GetAllToDo(connection)
