@@ -79,6 +79,6 @@ func TestCreateTODO(t *testing.T) {
 	mock.ExpectQuery(`INSERT INTO "todolist" ("description") VALUES ($1) RETURNING ID`).
 		WithArgs(todo.Description).
 		WillReturnRows(expectedRS)
-	actualRowsEffected, _ := todo.CreateTODO(todo.Connection)
+	actualRowsEffected, _ := todo.CreateToDo(todo.Connection)
 	assert.Equal(t, int64(lastUserId), actualRowsEffected)
 }
