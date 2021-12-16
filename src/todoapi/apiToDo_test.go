@@ -52,7 +52,7 @@ func TestGetAllToDoFail(t *testing.T) {
 // success case of APIcall
 func TestCreateToDoApiSuccess(t *testing.T) {
 
-	db, _ := NewMock()
+	db := tododb.GetConnection()
 	todo := &ApiToDo{
 		Connection: db,
 	}
