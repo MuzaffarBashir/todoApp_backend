@@ -12,7 +12,7 @@ var apitodo *todoapi.ApiToDo
 func (todoserver *ToDoServer) CreateToDo(request *http.Request, response http.ResponseWriter, conn *sql.DB) http.ResponseWriter {
 
 	apitodo = todoapi.NewApiService() // getting instance of api layer
-	apitodo, err := apitodo.CreateTODOApi(request, conn)
+	apitodo, err := apitodo.CreateToDoApi(request, conn)
 	if err != nil {
 		response = getresponseSetting(response)
 		response.WriteHeader(http.StatusBadRequest)

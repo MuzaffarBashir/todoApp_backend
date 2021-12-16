@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
@@ -62,4 +63,22 @@ func TestGetToDO_EmptyTodoList(t *testing.T) {
 	assert.Nil(t, actualErr)
 	assert.NotNil(t, actualTodo)
 	assert.Equal(t, len(expectedRows), totalActualRows)
+}
+
+//success case for todo insertion
+func TestCreateTODO(t *testing.T) {
+	db, mock := NewMock()
+	todo := &Todo{
+		Description: "Muzaffar",
+		ID:          "",
+		Connection:  db,
+	}
+	expectedRows := []string{"1"}
+	lastUserId, _ := strconv.Atoi(expectedRows[0])
+	expectedRS := sqlmock.NewRows(expectedRows).AddRow(lastUserId)
+	mock.ExpectQuery(`INSERT INTO "todolist" ("description") VALUES ($1) RETURNING ID`).
+		WithArgs(todo.Description).
+		WillReturnRows(expectedRS)
+	actualRowsEffected, _ := todo.CreateTODO(todo.Connection)
+	assert.Equal(t, int64(lastUserId), actualRowsEffected)
 }
