@@ -81,3 +81,13 @@ func TestValidateSuccess(t *testing.T) {
 	assert.NotNil(t, newtodo)
 	assert.EqualValues(t, description, newtodo.Description)
 }
+
+//Failure case for validate method
+func TestValidateFailure(t *testing.T) {
+
+	description := ""
+	todo := &ApiToDo{}
+	newtodo, err := todo.Validate(description)
+	assert.Nil(t, newtodo)
+	assert.NotNil(t, err)
+}
