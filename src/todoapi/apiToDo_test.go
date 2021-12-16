@@ -69,3 +69,14 @@ func TestCreateToDoApiSuccess(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, todo)
 }
+
+//success case for validation method
+func TestValidateSuccess(t *testing.T) {
+
+	description := "New Todo"
+	todo := &ApiToDo{}
+	newtodo, err := todo.Validate(description)
+	assert.Nil(t, err)
+	assert.NotNil(t, newtodo)
+	assert.EqualValues(t, description, newtodo.Description)
+}
