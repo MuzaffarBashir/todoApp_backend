@@ -1,6 +1,7 @@
 package todoserver
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"io/ioutil"
@@ -63,4 +64,31 @@ func TestGetAllToDoFailure(t *testing.T) {
 	_ = json.Unmarshal(data, &todoslist)
 	assert.Nil(t, todoslist)
 	assert.NotEqualValues(t, http.StatusOK, res.StatusCode)
+}
+
+//Success case for Creating todo
+func TestCreateToDo(t *testing.T) {
+
+	db := tododb.GetConnection()
+	todoserver := &ToDoServer{
+		Connection: db,
+	}
+	values := map[string]string{"Description": "new todo"}
+	json_data, err := json.Marshal(values)
+	request := httptest.NewRequest(http.MethodPost, "http://localhost:8090/handlerequest", bytes.NewBuffer(json_data))
+	response := httptest.NewRecorder()
+	todoserver.CreateToDo(request, response, todoserver.Connection)
+
+	res := response.Result()
+
+	defer res.Body.Close()
+	data, _ := ioutil.ReadAll(res.Body)
+	var todo todoapi.ApiToDo
+
+	err = json.Unmarshal(data, &todo)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, todo)
+	assert.EqualValues(t, "new todo", todo.Description)
+	assert.EqualValues(t, http.StatusOK, res.StatusCode)
 }

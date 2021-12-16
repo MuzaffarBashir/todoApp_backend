@@ -36,7 +36,7 @@ func TestCreateTodo(t *testing.T) {
 	json_data, err := json.Marshal(values)
 	request := httptest.NewRequest(http.MethodPost, "http://localhost:8090/handlerequest", bytes.NewBuffer(json_data))
 	response := httptest.NewRecorder()
-	createTodo(response, request)
+	handlerequest(response, request)
 	res := response.Result()
 
 	defer res.Body.Close()
