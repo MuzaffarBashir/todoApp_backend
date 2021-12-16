@@ -1,11 +1,13 @@
 package tests
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"testing"
 	"todoApp/todoapi"
 	"todoApp/tododb"
@@ -37,5 +39,32 @@ func TestApiGetAllToDos(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, todoslist)
 	assert.EqualValues(t, "new todo", todoslist[0].Description)
+	assert.EqualValues(t, http.StatusOK, response.StatusCode)
+}
+func TestApiCreateToDoSuccess(t *testing.T) {
+	db, mock := NewMock()
+	defer db.Close()
+	expectedRows := []string{"1"}
+	lastUserId, _ := strconv.Atoi(expectedRows[0])
+	expectedRS := sqlmock.NewRows(expectedRows).AddRow(lastUserId)
+	mock.ExpectQuery(`INSERT INTO "todolist" ("description") VALUES ($1) RETURNING ID`).
+		WithArgs("New Todo").
+		WillReturnRows(expectedRS)
+	/*prep := mock.ExpectPrepare("INSERT INTO todo (.+) VALUES (.+)")
+	prep.ExpectExec().WithArgs("Test Todo").WillReturnResult(sqlmock.NewResult(1, 1))*/
+
+	bodydata := map[string]interface{}{
+		"Description": "New Todo",
+	}
+	body, _ := json.Marshal(bodydata)
+	response, _ := http.Post("http://localhost:8090/handlerequest", "application/json", bytes.NewReader(body))
+	respBytes, _ := ioutil.ReadAll(response.Body)
+
+	var newtodo todoapi.ApiToDo
+	err := json.Unmarshal(respBytes, &newtodo)
+
+	assert.Nil(t, err)
+	assert.NotNil(t, newtodo)
+	assert.EqualValues(t, "New Todo", newtodo.Description)
 	assert.EqualValues(t, http.StatusOK, response.StatusCode)
 }
