@@ -2,6 +2,7 @@ package tododb
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 	"os"
 	"strconv"
@@ -81,4 +82,21 @@ func TestCreateTODO(t *testing.T) {
 		WillReturnRows(expectedRS)
 	actualRowsEffected, _ := todo.CreateToDo(todo.Connection)
 	assert.Equal(t, int64(lastUserId), actualRowsEffected)
+}
+
+//Failure case for todo insertion
+func TestCreateTODOFailure(t *testing.T) {
+	db, mock := NewMock()
+	todo := &Todo{
+		Description: "",
+		ID:          "",
+		Connection:  db,
+	}
+	expectedRS := errors.New("todo not inserted")
+	mock.ExpectQuery(`INSERT INTO "todolist" ("description") VALUES ($1) RETURNING ID`).
+		WithArgs(nil).
+		WillReturnError(expectedRS)
+	_, errmsg := todo.CreateToDo(todo.Connection)
+	assert.NotNil(t, errmsg)
+	assert.Equal(t, expectedRS, errmsg)
 }
