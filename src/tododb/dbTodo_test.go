@@ -70,7 +70,7 @@ func TestGetToDO_EmptyTodoList(t *testing.T) {
 func TestCreateTODO(t *testing.T) {
 	db, mock := NewMock()
 	todo := &Todo{
-		Description: "Muzaffar",
+		Description: "new todo",
 		ID:          "",
 		Connection:  db,
 	}

@@ -50,8 +50,6 @@ func TestApiCreateToDoSuccess(t *testing.T) {
 	mock.ExpectQuery(`INSERT INTO "todolist" ("description") VALUES ($1) RETURNING ID`).
 		WithArgs("New Todo").
 		WillReturnRows(expectedRS)
-	/*prep := mock.ExpectPrepare("INSERT INTO todo (.+) VALUES (.+)")
-	prep.ExpectExec().WithArgs("Test Todo").WillReturnResult(sqlmock.NewResult(1, 1))*/
 
 	bodydata := map[string]interface{}{
 		"Description": "New Todo",
