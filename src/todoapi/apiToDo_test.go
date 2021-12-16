@@ -65,7 +65,7 @@ func TestCreateToDoApiSuccess(t *testing.T) {
 		bytes.NewReader(body))
 	request.Header.Set("content-type", "text/plain")
 
-	todo, err := todo.CreateTODOApi(request, todo.Connection)
+	todo, err := todo.CreateToDoApi(request, todo.Connection)
 	assert.Nil(t, err)
 	assert.NotNil(t, todo)
 }
@@ -73,10 +73,9 @@ func TestCreateToDoApiSuccess(t *testing.T) {
 //success case for validation method
 func TestValidateSuccess(t *testing.T) {
 
-	description := "New Todo"
 	todo := &ApiToDo{}
-	newtodo, err := todo.Validate(description)
+	newtodo, err := todo.Validate("New Todo")
 	assert.Nil(t, err)
 	assert.NotNil(t, newtodo)
-	assert.EqualValues(t, description, newtodo.Description)
+	assert.EqualValues(t, "New Todo", newtodo.Description)
 }
