@@ -68,6 +68,8 @@ func TestCreateToDoApiSuccess(t *testing.T) {
 	todo, err := todo.CreateToDoApi(request, todo.Connection)
 	assert.Nil(t, err)
 	assert.NotNil(t, todo)
+	assert.NotNil(t, todo.ID)
+	assert.EqualValues(t, "New Todo", todo.Description)
 }
 
 //success case for validation method

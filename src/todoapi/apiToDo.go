@@ -44,7 +44,7 @@ func (apitodo *ApiToDo) CreateToDoApi(request *http.Request, conn *sql.DB) (*Api
 		return nil, err
 	} else {
 
-		ID, err := tododb.CreateTODO(conn)
+		ID, err := tododb.CreateToDo(conn)
 		if err != nil {
 			err = errors.New("database internal error")
 			return nil, err
