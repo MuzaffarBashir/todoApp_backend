@@ -20,6 +20,7 @@ var err error
 
 type DbServices interface {
 	GetAllToDO(conn *sql.DB) (*Todo, error)
+	CreateToDo(Connection *sql.DB) (int64, error)
 }
 type Todo struct {
 	Description string
