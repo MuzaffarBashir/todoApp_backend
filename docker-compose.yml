@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    container_name: go-todoapp
+    build: .
+    ports:
+      - 8090:8090
+    restart: on-failure
+    volumes:
+      - /src
+    depends_on:
+      - go-postgres
+
+  go-postgres:
+    image: postgres:14.1
+    container_name: go-postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_HOST=$${DB_HOST}
+      - POSTGRES_USERNAME=$${DB_USER}
+      - POSTGRES_PASSWORD=$${DB_PASSWORD}
+      - POSTGRES_DBNAME=$${DB_NAME}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql
+    env_file:
+      - .env
