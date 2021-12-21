@@ -25,28 +25,6 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	return db, mock
 }
 
-//Success case for gettig todoslist
-func TestGetAllToDoSuccess(t *testing.T) {
-
-	db := tododb.GetConnection()
-	todoserver := &ToDoServer{
-		Connection: db,
-	}
-
-	w := httptest.NewRecorder()
-	todoserver.GetAllToDo(w, todoserver.Connection)
-	res := w.Result()
-	defer res.Body.Close()
-	data, _ := ioutil.ReadAll(res.Body)
-	var todoslist []todoapi.ApiToDo
-	err := json.Unmarshal(data, &todoslist)
-
-	assert.Nil(t, err)
-	assert.NotNil(t, todoslist)
-	assert.EqualValues(t, "new todo", todoslist[0].Description)
-	assert.EqualValues(t, http.StatusOK, res.StatusCode)
-}
-
 //Fail case for gettig todoslist
 func TestGetAllToDoFailure(t *testing.T) {
 
