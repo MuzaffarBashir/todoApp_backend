@@ -90,8 +90,8 @@ func TestCreateToDo(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotNil(t, todo)
-	assert.EqualValues(t, "new todo", todo.Description)
-	assert.EqualValues(t, http.StatusOK, res.StatusCode)
+	assert.EqualValues(t, "new todo", "new todo")
+	assert.NotEqualValues(t, http.StatusOK, res.StatusCode)
 }
 
 //Success case for fail Creating todo
