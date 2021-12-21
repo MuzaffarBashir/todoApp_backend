@@ -28,10 +28,9 @@ func TestApiGetAllToDos(t *testing.T) {
 	db, mock := NewMock()
 	defer db.Close()
 
-	query := `SELECT id,description FROM "todolist"`
-	expectedRows := []string{"id", "description"}
-	expectedRS := sqlmock.NewRows(expectedRows).FromCSVString("1 new todo")
-	mock.ExpectQuery(query).WillReturnRows(expectedRS)
+	expectedRS := sqlmock.NewRows([]string{"id", "description"}).FromCSVString("1 new todo")
+	mock.ExpectQuery("SELECT (.*) FROM todolist").WillReturnRows(expectedRS)
+
 	response, _ := http.Get("http://localhost:8090/gettodo")
 	bytes, _ := ioutil.ReadAll(response.Body)
 	var todoslist = make([]todoapi.ApiToDo, 0)
