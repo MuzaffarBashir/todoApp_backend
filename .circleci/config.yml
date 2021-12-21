@@ -2,8 +2,8 @@ version: 2 # use CircleCI 2.0
 jobs: # basic units of work in a run
   build: #  must have a `build` job as entry point
     docker: # run the steps with Docker
-      - image: circleci/golang:1.13
-      - image: circleci/postgres:14.1
+      - image: cimg/golang:1.17
+      - image: cimg/postgres:14.0.0
         environment: # environmental variables for container
           POSTGRES_USERNAME: postgres
           POSTGRES_DBNAME: userdata
