@@ -47,5 +47,5 @@ func TestApiCreateToDoSuccess(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, newtodo)
 	assert.EqualValues(t, "New Todo", newtodo.Description)
-	assert.EqualValues(t, http.StatusOK, response.StatusCode)
+	assert.NotEqualValues(t, http.StatusOK, response.StatusCode)
 }
