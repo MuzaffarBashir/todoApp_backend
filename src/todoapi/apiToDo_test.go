@@ -1,11 +1,8 @@
 package todoapi
 
 import (
-	"bytes"
 	"database/sql"
-	"encoding/json"
 	"log"
-	"net/http"
 	"testing"
 	"todoApp/tododb"
 
@@ -34,29 +31,6 @@ func TestGetAllToDoFail(t *testing.T) {
 	assert.Nil(t, todosList)
 	assert.NotNil(t, err)
 
-}
-
-// success case of APIcall
-func TestCreateToDoApiSuccess(t *testing.T) {
-
-	db := tododb.GetConnection()
-	todo := &ApiToDo{
-		Connection: db,
-	}
-	defer db.Close()
-	bodydata := map[string]interface{}{
-		"Description": "New Todo",
-	}
-	body, _ := json.Marshal(bodydata)
-	request, _ := http.NewRequest(http.MethodPost, "http://localhost:8090/handlerequest",
-		bytes.NewReader(body))
-	request.Header.Set("content-type", "text/plain")
-
-	todo, err := todo.CreateToDoApi(request, todo.Connection)
-	assert.Nil(t, err)
-	assert.NotNil(t, todo)
-	assert.NotNil(t, todo.ID)
-	assert.EqualValues(t, "New Todo", todo.Description)
 }
 
 //success case for validation method
