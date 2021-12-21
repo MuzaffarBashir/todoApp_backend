@@ -16,10 +16,10 @@ import (
 )
 
 func NewMock() (*sql.DB, sqlmock.Sqlmock) {
-	db, mock, err := sqlmock.New()
+	db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
 	tododb.SetConnection(db)
 	if err != nil {
-		log.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+		log.Fatalf("wasn't thinking of err '%s' while geting connection", err)
 	}
 	return db, mock
 }
