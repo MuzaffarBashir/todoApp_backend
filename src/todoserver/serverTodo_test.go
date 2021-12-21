@@ -42,8 +42,8 @@ func TestGetAllToDoSuccess(t *testing.T) {
 	err := json.Unmarshal(data, &todoslist)
 
 	assert.Nil(t, err)
-	assert.Nil(t, todoslist)
-	assert.EqualValues(t, "new todo", "new todo")
+	assert.NotNil(t, todoslist)
+	assert.EqualValues(t, "new todo", todoslist[0].Description)
 	assert.EqualValues(t, http.StatusOK, res.StatusCode)
 }
 
@@ -90,8 +90,8 @@ func TestCreateToDo(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotNil(t, todo)
-	assert.EqualValues(t, "new todo", "new todo")
-	assert.NotEqualValues(t, http.StatusOK, res.StatusCode)
+	assert.EqualValues(t, "new todo", todo.Description)
+	assert.EqualValues(t, http.StatusOK, res.StatusCode)
 }
 
 //Success case for fail Creating todo
