@@ -32,13 +32,17 @@ func TestApiGetAllToDos(t *testing.T) {
 	mock.ExpectQuery(query).WillReturnRows(expectedRS)
 
 	rs, err := http.Get("http://localhost:8090/gettodo")
-	bytes, _ := ioutil.ReadAll(rs.Body)
-	var todoslist = make([]todoapi.ApiToDo, 0)
-	err = json.Unmarshal(bytes, &todoslist)
-	assert.Nil(t, err)
-	assert.NotNil(t, todoslist)
-	assert.EqualValues(t, "new todo", todoslist[0].Description)
-	assert.EqualValues(t, http.StatusOK, rs.StatusCode)
+	if err == nil {
+		bytes, _ := ioutil.ReadAll(rs.Body)
+		var todoslist = make([]todoapi.ApiToDo, 0)
+		err = json.Unmarshal(bytes, &todoslist)
+		assert.Nil(t, err)
+		assert.NotNil(t, todoslist)
+		assert.EqualValues(t, "new todo", todoslist[0].Description)
+		assert.EqualValues(t, http.StatusOK, rs.StatusCode)
+	} else {
+		panic(err)
+	}
 }
 func TestApiCreateToDoSuccess(t *testing.T) {
 
