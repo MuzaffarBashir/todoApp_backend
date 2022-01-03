@@ -23,27 +23,6 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 	}
 	return db, mock
 }
-func TestApiGetAllToDos(t *testing.T) {
-	db, mock := NewMock()
-	defer db.Close()
-	query := `SELECT id,description FROM "todolist"`
-	expectedRows := []string{"id", "description"}
-	expectedRS := sqlmock.NewRows(expectedRows).FromCSVString("1, new todo")
-	mock.ExpectQuery(query).WillReturnRows(expectedRS)
-
-	rs, err := http.Get("http://localhost:8090/gettodo")
-	if err == nil {
-		bytes, _ := ioutil.ReadAll(rs.Body)
-		var todoslist = make([]todoapi.ApiToDo, 0)
-		err = json.Unmarshal(bytes, &todoslist)
-		assert.Nil(t, err)
-		assert.NotNil(t, todoslist)
-		assert.EqualValues(t, "new todo", todoslist[0].Description)
-		assert.EqualValues(t, http.StatusOK, rs.StatusCode)
-	} else {
-		panic(err)
-	}
-}
 func TestApiCreateToDoSuccess(t *testing.T) {
 
 	db, mock := NewMock()
