@@ -1,18 +1,11 @@
 package tests
 
 import (
-	"bytes"
 	"database/sql"
-	"encoding/json"
-	"io/ioutil"
 	"log"
-	"net/http"
-	"testing"
-	"todoApp/todoapi"
 	"todoApp/tododb"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/stretchr/testify/assert"
 )
 
 func NewMock() (*sql.DB, sqlmock.Sqlmock) {
@@ -22,22 +15,4 @@ func NewMock() (*sql.DB, sqlmock.Sqlmock) {
 		log.Fatalf("wasn't thinking of err '%s' while geting connection", err)
 	}
 	return db, mock
-}
-func TestApiCreateToDoSuccess(t *testing.T) {
-
-	db, mock := NewMock()
-	defer db.Close()
-	prep := mock.ExpectPrepare("INSERT INTO todolist (.+) VALUES (.+)")
-	prep.ExpectExec().WithArgs("new todo").WillReturnResult(sqlmock.NewResult(1, 1))
-
-	var body = []byte(`{"description": "new todo"}`)
-	response, _ := http.Post("http://localhost:8090/handlerequest", "application/json", bytes.NewReader(body))
-	respBytes, _ := ioutil.ReadAll(response.Body)
-	var newtodo todoapi.ApiToDo
-	err := json.Unmarshal(respBytes, &newtodo)
-
-	assert.Nil(t, err)
-	assert.NotNil(t, newtodo)
-	assert.EqualValues(t, "new todo", newtodo.Description)
-	assert.EqualValues(t, http.StatusOK, response.StatusCode)
 }
